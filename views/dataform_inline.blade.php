@@ -1,4 +1,5 @@
 
+
 <div class="rpd-dataform inline">
     @section('df.header')
         {!! $df->open !!}
@@ -9,6 +10,7 @@
     @section('df.message')
         <div class="alert alert-success">{!! $df->message !!}</div>
     @show
+
     @endif
     
     @if ($df->message == '')

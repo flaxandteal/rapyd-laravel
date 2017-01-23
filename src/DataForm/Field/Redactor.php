@@ -1,5 +1,6 @@
 <?php namespace Zofe\Rapyd\DataForm\Field;
 
+
 use Collective\Html\FormFacade as Form;
 use Zofe\Rapyd\Rapyd;
 class Redactor extends Field
@@ -28,12 +29,24 @@ class Redactor extends Field
       case "create":
       case "modify":
 
-        Rapyd::js('redactor/jquery.browser.min.js');
-        Rapyd::js('redactor/redactor.min.js');
-        Rapyd::css('redactor/css/redactor.css');
+        Rapyd::js('tinymce/tinymce.min.js');
+        Rapyd::js('tinymce/tinymce_editor.js');
         $output  = Form::textarea($this->name, $this->value, $this->attributes);
-        Rapyd::script("$('[id=\"".$this->name."\"]').redactor();");
-
+	Rapyd::script("function elFinderBrowser (field_name, url, type, win) {" .
+		      "tinymce.activeEditor.windowManager.open({" .
+		      "file: '" . route('elfinder.tinymce4') . "'," .
+		      "title: 'elFinder 2.0'," .
+		      "width: 900," .
+		      "height: 450," .
+		      "resizable: 'yes'" .
+		      "}, {" .
+		      "setUrl: function (url) {" .
+		      "win.document.getElementById(field_name).value = url;" .
+		      "}" .
+		      "});" .
+		      "return false;" .
+		      "}");
+        Rapyd::script("tinymce.init({selector: '[id=\"".$this->name."\"]', file_browser_callback : elFinderBrowser, plugins: 'image, link', convert_urls: false});");
         break;
 
       case "hidden":

@@ -560,7 +560,12 @@ abstract class Field extends Widget
         if (isset($this->new_value)) {
             $data = $this->new_value;
         } else {
-            $data = $this->value;
+            if ($this->type != 'checks') {
+                $data = $this->value;    
+            }
+            else {
+                $data = '';
+            }
         }
         if ($this->relation != null) {
 
@@ -572,6 +577,10 @@ abstract class Field extends Widget
 
                     $old_data = $this->relation->get()->modelKeys();
                     $new_data = explode($this->serialization_sep, $data);
+
+                    if ($old_data == $new_data) {
+                        continue;
+                    }
 
                     $this->relation->detach($old_data);
 

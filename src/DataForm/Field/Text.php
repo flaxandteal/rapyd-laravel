@@ -28,7 +28,7 @@ class Text extends Field
 
       case "create":
       case "modify":
-        $output = Form::text($this->name, $this->value, $this->attributes);
+        $output = Form::text($this->name, $this->value, array_merge(array('class'=>'col-xs-12'),$this->attributes));
         break;
 
       case "hidden":

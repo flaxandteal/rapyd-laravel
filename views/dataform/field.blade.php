@@ -1,11 +1,15 @@
 @if (in_array($field->type, array('hidden','auto')) OR !$field->has_wrapper )
 
+
     {!! $field->output !!}
+
 
     @if ($field->message!='')
     <span class="help-block">
         <span class="glyphicon glyphicon-warning-sign"></span>
+
         {!! $field->message !!}
+
     </span>
     @endif
 

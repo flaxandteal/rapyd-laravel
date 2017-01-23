@@ -52,7 +52,6 @@ class Url
         if ($this->url == '') {
             $this->url = $this->current();
         }
-
         parse_str(parse_url($this->url, PHP_URL_QUERY), $params);
 
         return $params;
@@ -99,6 +98,8 @@ class Url
 
                 return $this;
             }
+
+
 
             $keys = array($keys);
         }
@@ -151,6 +152,7 @@ class Url
 
     public function value($key, $default = false)
     {
+
         if ( strpos($key, '|') ) {
             $keys = explode('|', $key);
             foreach ($keys as $k) {

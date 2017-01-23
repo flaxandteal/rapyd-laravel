@@ -19,6 +19,7 @@
 
         <div class="container">
 
+
         {!! $form->header !!}
 
             {!! $form->message !!}
@@ -39,7 +40,12 @@
 
                     <div class="col-sm-8">
 
+
+                         Body: {!! $form->field('body') !!}<br />
+
+
                          {!! $form->render('body') !!}
+
                     </div>
                     
                     

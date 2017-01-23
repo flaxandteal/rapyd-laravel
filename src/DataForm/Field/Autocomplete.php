@@ -2,6 +2,7 @@
 
 namespace Zofe\Rapyd\DataForm\Field;
 
+
 use Collective\Html\FormFacade as Form;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -167,7 +168,6 @@ class Autocomplete extends Field
                 $output  =  Form::text("auto_".$this->name, $autocomplete, array_merge($this->attributes, array('id'=>"auto_".$this->name)))."\n";
                 $output .=  Form::hidden($this->name, $this->value, array('id'=>$this->name));
                 $output  =  '<span id="th_'.$this->name.'">'.$output.'</span>';
-
                 if ($this->remote) {
                     $script = <<<acp
 
@@ -279,7 +279,6 @@ acp;
 
             default:;
         }
-
         $this->output = "\n".$output."\n". $this->extra_output."\n";
     }
 

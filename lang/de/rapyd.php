@@ -19,4 +19,7 @@ return array(
     'err_unknown'=> 'Kein Eintrag ausgewählt.',
     'err_dup_pk' => 'Fehler. Primary key bereits vorhanden.',
     'conf_delete'=> 'Eintrag löschen?',
+    'empty_list' => 'No record is added !',
+    'help'       => 'Hilfe',
+    'links_help' => "The 'Edit Links' form is used for adding a link in the sidebar menu of panel. The value of 'Display' field specifies the label of the link to be displayed in the menu and the value of 'Link' field specifies the name of the model."
 );

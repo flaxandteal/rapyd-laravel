@@ -1,9 +1,6 @@
 <?php
 
-//dataform routing
-Burp::post(null, 'process=1', array('as'=>'save', function() {
-    BurpEvent::queue('dataform.save');
-}));
+
 
 //datagrid routing
 Burp::get(null, 'page/(\d+)', array('as'=>'page', function($page) {
@@ -23,8 +20,10 @@ if (version_compare(app()->version(), '5.2')>0)
         Route::get('rapyd-ajax/{hash}', array('as' => 'rapyd.remote', 'uses' => '\Zofe\Rapyd\Controllers\AjaxController@getRemote'));
         //Route::controller('rapyd-demo', '\Zofe\Rapyd\Demo\DemoController');
 
+
     });
 } else {
     Route::get('rapyd-ajax/{hash}', array('as' => 'rapyd.remote', 'uses' => '\Zofe\Rapyd\Controllers\AjaxController@getRemote'));
     //Route::controller('rapyd-demo', '\Zofe\Rapyd\Demo\DemoController');
 }
+
