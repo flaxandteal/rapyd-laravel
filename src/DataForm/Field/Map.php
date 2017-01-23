@@ -33,6 +33,16 @@ class Map extends Field
         return $this;
     }
 
+    public function getStaticUrl()
+    {
+        $url = "https://maps.googleapis.com/maps/api/staticmap?center={$this->value['lat']},{$this->value['lon']}&zoom={$this->zoom}&size=500x500";
+        if ($this->key)
+        {
+            $url .= '&key=' . $this->key;
+        }
+        return $url;
+    }
+
     public function getUrl()
     {
         $url = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false';
@@ -111,7 +121,7 @@ class Map extends Field
                 } elseif ((!isset($this->value))) {
                     $output = $this->layout['null_label'];
                 } else {
-                    $output = "<img border=\"0\" src=\"//maps.googleapis.com/maps/api/staticmap?center={$this->value['lat']},{$this->value['lon']}&zoom={$this->zoom}&size=500x500\">";
+                    $output = "<img border=\"0\" src=\"" . $this->getStaticUrl() . "\">";
                 }
                 $output = "<div class='help-block'>" . $output . "</div>";
                 break;
