@@ -111,7 +111,7 @@ class Osmap extends Field
                 $output  = Form::hidden($this->lat, $this->value['lat'], ['id'=>$this->lat]);
                 $output .= Form::hidden($this->lon, $this->value['lon'], ['id'=>$this->lon]);
                 $output .= '<div id="map_'.$this->name.'" class="map" style="width:100%; height:500px"></div>';
-                $output .= '<script src="https://openlayers.org/en/v3.20.1/build/ol-debug.js" type="text/javascript"></script>';
+                $output .= '<script src="https://openlayers.org/en/v3.20.1/build/ol.js" type="text/javascript"></script>';
                 
             \Rapyd::script("
         
@@ -161,7 +161,6 @@ class Osmap extends Field
 
                 var update_hidden_fields = function (ev) {
                     var lonLat = ol.proj.toLonLat(ev.coordinate);
-                    console.log(lonLat);
                     latitude.value = lonLat[0];
                     longitude.value = lonLat[1];
                 }
