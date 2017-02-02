@@ -17,7 +17,7 @@ class RapydServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'rapyd');
         
         //translations
-        $this->publishes([__DIR__.'/../lang' => base_path('resources/lang/vendor/zofe/rapyd')], 'lang');
+        $this->publishes([__DIR__.'/../lang' => base_path('resources/lang/vendor/rapyd')], 'lang');
         
         //assets
         $this->publishes([__DIR__.'/../public/assets' => public_path('packages/zofe/rapyd/assets')], 'assets');
