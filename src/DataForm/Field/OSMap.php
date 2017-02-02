@@ -13,6 +13,7 @@ class Osmap extends Field
     public $lon = "lon";
     public $zoom = 12;
     public $key;
+    public $attributeIsLatLon = false;
 
     public function latlon($lat, $lon)
     {
@@ -33,6 +34,12 @@ class Osmap extends Field
         return $this;
     }
 
+    public function attributeIsLatLon($attributeIsLatLon)
+    {
+        $this->attributeIsLatLon = $attributeIsLatLon;
+        return $this;
+    }
+
     public function getValue()
     {
         $process = (\Input::get('search') || \Input::get('save')) ? true : false;
@@ -47,8 +54,13 @@ class Osmap extends Field
         } elseif (($this->status == "modify") && ($this->update_value != null)) {
             $this->value = $this->update_value;
         } elseif (isset($this->model)) {
-            $this->value['lat'] = $this->model->getAttribute($this->lat);
-            $this->value['lon'] = $this->model->getAttribute($this->lon);
+            if ($this->attributeIsLatLon) {
+                list($this->value['lat'], $this->value['lon']) = $this->model->getAttribute($this->name);
+            }
+            else {
+                $this->value['lat'] = $this->model->getAttribute($this->lat);
+                $this->value['lon'] = $this->model->getAttribute($this->lon);
+            }
             $this->description =  implode(',', array_values($this->value));
         }
     }
@@ -76,8 +88,14 @@ class Osmap extends Field
         {
             $this->getValue();
             $this->getNewValue();
-            $this->model->setAttribute($this->lat, $this->new_value['lat']);
-            $this->model->setAttribute($this->lon, $this->new_value['lon']);
+            if ($this->attributeIsLatLon) {
+                $this->model->setAttribute($this->name, [$this->new_value['lat'], $this->new_value['lon']]);
+            }
+            else {
+                $this->model->setAttribute($this->lat, $this->new_value['lat']);
+                $this->model->setAttribute($this->lon, $this->new_value['lon']);
+            }
+
             if ($save) {
                 return $this->model->save();
             }
@@ -101,7 +119,59 @@ class Osmap extends Field
                 } elseif ((!isset($this->value))) {
                     $output = $this->layout['null_label'];
                 } else {
-                    $output = "<img border=\"0\" src=\"" . $this->getStaticUrl() . "\">";
+                    $output  = Form::hidden($this->lat, $this->value['lat'], ['id'=>$this->lat]);
+                    $output .= Form::hidden($this->lon, $this->value['lon'], ['id'=>$this->lon]);
+                    $output .= '<div id="map_'.$this->name.'" class="map" style="width:100%; height:500px"></div>';
+                    $output .= '<script src="https://openlayers.org/en/v3.20.1/build/ol.js" type="text/javascript"></script>';
+
+                    \Rapyd::script("
+
+                    function initialize()
+                    {
+                        var latitude = document.getElementById('{$this->lat}');
+                        var longitude = document.getElementById('{$this->lon}');
+                        var zoom = {$this->zoom};
+
+                        var latLng = ol.proj.fromLonLat([parseFloat(longitude.value), parseFloat(latitude.value)]);
+                        var point = new ol.geom.Point(latLng);
+
+                        var pointFeature = new ol.Feature({
+                            geometry: point,
+                            name: 'Epicentre'
+                        });
+
+                        var vectorSource = new ol.source.Vector({})
+                        var vectors = new ol.layer.Vector({
+                            source: vectorSource,
+                            style: new ol.style.Style({
+                                image: new ol.style.Circle({
+                                    fill: new ol.style.Fill({
+                                        color: [255, 0, 0]
+                                    }),
+                                    radius: 10
+                                })
+                            })
+                        })
+                        vectorSource.addFeature(pointFeature);
+
+                        var mapOptions = {
+                            target: 'map_{$this->name}',
+                            layers: [
+                                new ol.layer.Tile({
+                                    source: new ol.source.OSM()
+                                }),
+                                vectors
+                            ],
+                            view: new ol.View({
+                                zoom: zoom,
+                                center: latLng
+                            }),
+                        }
+
+                        var map = new ol.Map(mapOptions);
+                    }
+                    initialize();
+                ");
                 }
                 $output = "<div class='help-block'>" . $output . "</div>";
                 break;
