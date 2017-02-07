@@ -231,8 +231,8 @@ class Osmap extends Field
 
                 var update_hidden_fields = function (ev) {
                     var lonLat = ol.proj.toLonLat(ev.coordinate);
-                    latitude.value = lonLat[0];
-                    longitude.value = lonLat[1];
+                    latitude.value = lonLat[1];
+                    longitude.value = lonLat[0];
                 }
 
                 var translate = new ol.interaction.Translate({
