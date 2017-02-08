@@ -31,6 +31,7 @@ abstract class Field extends Widget
     public $callable;
 
     public $serialization_sep = '|';
+    public $serialization_col = ':';
     //atributes
     public $maxlength;
     public $onclick;
@@ -366,6 +367,14 @@ abstract class Field extends Widget
                     break;
 
                 //es. "comments" for "Article"
+                case $this->relation instanceof \Illuminate\Database\Eloquent\Relations\HasMany:
+                    $this->value = @$this->relation->get()->pluck($this->rel_field, $this->rel_key)->map(function ($v, $k) {
+                        return $k . $this->serialization_col . $v;
+                    })->implode($this->serialization_sep); //value I need is the field value on related table
+
+                    break;
+
+                //es. "comments" for "Article"
                 default:
                     //'Illuminate\Database\Eloquent\Relations\HasOneOrMany':
                     //'Illuminate\Database\Eloquent\Relations\HasMany':
@@ -589,6 +598,33 @@ abstract class Field extends Widget
                     }
 
                     break;
+                case 'Illuminate\Database\Eloquent\Relations\HasMany':
+
+                    $new_data = [];
+                    foreach (explode($this->serialization_sep, $data) as $entry) {
+                        $colLoc = strpos($entry, $this->serialization_col);
+                        if ($colLoc > 0) {
+                            $key = substr($entry, 0, $colLoc);
+                            $value = substr($entry, $colLoc + 1);
+                            $new_data[$key] = $value;
+                        }
+                    }
+
+                    if (isset($this->model_relations[$this->rel_name])) {
+                        $relations = $this->model_relations[$this->rel_name];
+                    } else {
+                        $relations = $this->relation->get();
+                        if (!$relations) $relations = $this->relation->getRelated();
+                        $this->model_relations[$this->rel_name] = $relations;
+                    }
+                    $relations->each(function ($related) use ($new_data) {
+                        if (array_key_exists($related->{$this->rel_key}, $new_data)) {
+                            $related->{$this->rel_field} = $new_data[$related->{$this->rel_key}];
+                        }
+                        $related->save();
+                    });
+                    break;
+                
                 case 'Illuminate\Database\Eloquent\Relations\HasOne':
 
                     if (isset($this->model_relations[$this->rel_name])) {
