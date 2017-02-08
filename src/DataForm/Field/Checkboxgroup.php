@@ -13,11 +13,18 @@ class Checkboxgroup extends Field
     public $css_class = "checkbox";
     public $checked_value = 1;
     public $unchecked_value = 0;
+    public $add_hidden = null;
     public $clause = "wherein";
 
     public function separator($separator)
     {
         $this->separator = $separator;
+    }
+
+    public function addHidden($hiddenOptions)
+    {
+        $this->add_hidden = $hiddenOptions;
+        return $this;
     }
 
     public function getValue()
@@ -65,6 +72,11 @@ class Checkboxgroup extends Field
             case "modify":
 
                 //dd($this->options, $this->values);
+                if ($this->add_hidden) {
+                    foreach ($this->add_hidden as $val) {
+                        $output .= Form::hidden($this->name.'[]', $val);
+                    }
+                }
                 foreach ($this->options as $val => $label) {
 
                     $this->checked = in_array($val, $this->values);
