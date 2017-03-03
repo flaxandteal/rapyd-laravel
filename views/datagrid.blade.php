@@ -1,6 +1,6 @@
 
 <div class="pull-right">
-        <a href="{!! url('panel/'.$current_entity.'/edit') !!}" class="btn btn-primary">{{ trans('rapyd::rapyd.add') }}</a>
+        <a href="{!! $add_url ?: url('panel/'.$current_entity.'/edit') !!}" class="btn btn-primary">{{ trans('rapyd::rapyd.add') }}</a>
 </div>
 
 <div class="rpd-datagrid">

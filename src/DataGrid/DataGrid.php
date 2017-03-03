@@ -16,6 +16,7 @@ class DataGrid extends DataSet
     public $output = "";
     public $attributes = array("class" => "table");
     public $checkbox_form = false;
+    public $add_url = null;
     
     protected $row_callable = array();
 
@@ -40,7 +41,7 @@ class DataGrid extends DataSet
     }
 
     //todo: like "field" for DataForm, should be nice to work with "cell" as instance and "row" as collection of cells
-    public function build($view = '')
+    public function build($view = '', $add_url = null)
     {
         if ($this->output != '') return;
         ($view == '') and $view = 'rapyd::datagrid';
@@ -76,7 +77,7 @@ class DataGrid extends DataSet
 
         $routeParamters = \Route::current()->parameters();
 
-        $this->output = \View::make($view, array('dg' => $this, 'buttons'=>$this->button_container, 'label'=>$this->label,'current_entity' => $routeParamters['entity']))->render();
+        $this->output = \View::make($view, array('dg' => $this, 'buttons'=>$this->button_container, 'label'=>$this->label,'current_entity' => $routeParamters['entity'], 'add_url' => $this->add_url))->render();
         return $this->output;
     }
 
