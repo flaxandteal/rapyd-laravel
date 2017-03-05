@@ -450,7 +450,12 @@ class DataForm extends Widget
 
     public function prepareForm()
     {
-        $form_attr = array('url' => $this->process_url, 'class' => "form-horizontal", 'role' => "form", 'method' => $this->method);
+        // Need to find a configurable way of doing this
+        // (at the moment Rapyd's approach ignores HTTPS
+        // override - necessary if nginx is not the HTTPS
+        // endpoint.
+        $secure_url = str_replace('http:', 'https:', $this->process_url);
+        $form_attr = array('url' => $secure_url, 'class' => "form-horizontal", 'role' => "form", 'method' => $this->method);
         $form_attr = array_merge($form_attr, $this->attributes);
 
         // See if we need a multipart form
