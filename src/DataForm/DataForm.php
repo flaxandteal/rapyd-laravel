@@ -455,9 +455,11 @@ class DataForm extends Widget
         // override - necessary if nginx is not the HTTPS
         // endpoint.
         if (!env('ALLOW_HTTP_URL', false)) {
-            $secure_url = str_replace('http:', 'https:', $this->process_url);
+            $url = str_replace('http:', 'https:', $this->process_url);
+        } else {
+            $url = $this->process_url;
         }
-        $form_attr = array('url' => $secure_url, 'class' => "form-horizontal", 'role' => "form", 'method' => $this->method);
+        $form_attr = array('url' => $url, 'class' => "form-horizontal", 'role' => "form", 'method' => $this->method);
         $form_attr = array_merge($form_attr, $this->attributes);
 
         // See if we need a multipart form
