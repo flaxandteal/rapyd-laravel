@@ -1,6 +1,8 @@
 
 <div class="pull-right">
+    @if ($add_url !== false)
         <a href="{!! $add_url ?: url('panel/'.$current_entity.'/edit') !!}" class="btn btn-primary">{{ trans('rapyd::rapyd.add') }}</a>
+    @endif
 </div>
 
 <div class="rpd-datagrid">
