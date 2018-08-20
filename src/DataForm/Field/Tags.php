@@ -55,6 +55,13 @@ class Tags extends Field
         }
         parent::getValue();
 
+        if (is_array($this->value)) {
+            $this->values = $this->value;
+        }
+        else {
+            $this->values = explode($this->serialization_sep, $this->value);
+        }
+
         if (count($this->local_options)) {
             $description_arr = array();
             $this->fill_tags = "";
