@@ -4,6 +4,7 @@ namespace Zofe\Rapyd\DataForm\Field;
 
 use Collective\Html\FormFacade as Form;
 
+
 class Map extends Field
 {
 
@@ -34,7 +35,7 @@ class Map extends Field
 
     public function getUrl()
     {
-        $url = 'https://maps.googleapis.com/maps/api/js?v=3.exp';
+        $url = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false';
         if ($this->key)
         {
             $url .= '&key=' . $this->key;
@@ -61,6 +62,7 @@ class Map extends Field
             $this->description =  implode(',', array_values($this->value));
         }
     }
+
 
     public function getNewValue()
     {
@@ -110,7 +112,6 @@ class Map extends Field
                     $output = $this->layout['null_label'];
                 } else {
                     $output = "<img border=\"0\" src=\"//maps.googleapis.com/maps/api/staticmap?center={$this->value['lat']},{$this->value['lon']}&zoom={$this->zoom}&size=500x500\">";
-                   
                 }
                 $output = "<div class='help-block'>" . $output . "</div>";
                 break;
@@ -132,6 +133,7 @@ class Map extends Field
         
                 var LatLng = new google.maps.LatLng(latitude.value, longitude.value);
         
+
                 var mapOptions = {
                     zoom: zoom,
                     center: LatLng,
@@ -142,6 +144,7 @@ class Map extends Field
                 }
         
                 var map = new google.maps.Map(document.getElementById('map_{$this->name}'),mapOptions);
+
                 var marker = new google.maps.Marker({
                     position: LatLng,
                     map: map,
@@ -162,6 +165,7 @@ class Map extends Field
             initialize();
         ");
                 
+
                 break;
 
             case "hidden":

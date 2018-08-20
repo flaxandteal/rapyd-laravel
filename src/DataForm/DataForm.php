@@ -648,7 +648,6 @@ class DataForm extends Widget
         $this->add($field, '', 'auto');
         if ($insert)
             $this->field($field)->insertValue($value);
-
         if ($update)
             $this->field($field)->updateValue($value);
 

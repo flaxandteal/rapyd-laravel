@@ -170,7 +170,7 @@ class Tags extends Field
                       itemValue: '{$this->record_id}',
                       itemText: '{$this->record_label}'
                     });
-                    {$this->fill_tags}
+                    
 
                     var blod_{$this->name} = new Bloodhound({
                         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('{$this->name}'),

@@ -1,4 +1,7 @@
 
+<div class="pull-right">
+        <a href="{!! url('panel/'.$current_entity.'/edit') !!}" class="btn btn-primary">{{ trans('rapyd::rapyd.add') }}</a>
+</div>
 
 <div class="rpd-datagrid">
     @include('rapyd::toolbar', array('label'=>$label, 'buttons_right'=>$buttons['TR']))
@@ -44,16 +47,16 @@
         </tbody>
     </table>
 
-
     <div class="btn-toolbar" role="toolbar">
         @if ($dg->havePagination())
             <div class="pull-left">
                 {!! $dg->links() !!}
             </div>
-            <div class="pull-right">
+            <div class="badge pull-right">
                 {!! $dg->totalRows() !!}
             </div>
         @endif
     </div>
 </div>
+
 

@@ -30,6 +30,7 @@
                     </div>
                 {!! $filter->close !!}
 
+
                 <br />
                 <div class="row">
 
@@ -44,6 +45,7 @@
                 </div>
 
                 <div>
+
                     {!! $set->links() !!}
                     <div class="pull-right">
                         <a href="/rapyd-demo/customfilter">all articles</a> |
