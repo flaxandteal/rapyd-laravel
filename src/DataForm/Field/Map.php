@@ -35,7 +35,8 @@ class Map extends Field
 
     public function getStaticUrl()
     {
-        $url = "https://maps.googleapis.com/maps/api/staticmap?center={$this->value['lat']},{$this->value['lon']}&zoom={$this->zoom}&size=500x500";
+        $url = "https://maps.googleapis.com/maps/api/staticmap?sensor=false&center={$this->value['lat']},{$this->value['lon']}&zoom={$this->zoom}&size=500x500";
+
         if ($this->key)
         {
             $url .= '&key=' . $this->key;
