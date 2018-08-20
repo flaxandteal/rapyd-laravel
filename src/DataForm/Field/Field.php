@@ -138,7 +138,7 @@ abstract class Field extends Widget
                 $this->db_name = $name;
             }
 
-            if (is_a(@$this->relation, 'Illuminate\Database\Eloquent\Relations\BelongsToMany')){
+            if (is_a(@$this->relation, 'Illuminate\Database\Eloquent\Relations\Pivot')){
 
                 $this->rel_other_key = $this->relation->getOtherKey();
 
