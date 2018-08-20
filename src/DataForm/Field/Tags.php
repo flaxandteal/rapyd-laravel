@@ -16,7 +16,7 @@ class Tags extends Field
     public $remote;
     public $separator = "&nbsp;";
     public $serialization_sep = ",";
-    public $local_options;
+    public $local_options = [];
 
     public $record_id;
     public $record_label;
@@ -54,6 +54,13 @@ class Tags extends Field
              $this->remote($this->rel_field, trim(strstr($this->rel_key,'.'),'.'));
         }
         parent::getValue();
+
+        if (is_array($this->value)) {
+            $this->values = $this->value;
+        }
+        else {
+            $this->values = explode($this->serialization_sep, $this->value);
+        }
 
         if (count($this->local_options)) {
             $description_arr = array();
