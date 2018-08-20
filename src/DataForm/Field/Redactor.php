@@ -47,7 +47,6 @@ class Redactor extends Field
 		      "return false;" .
 		      "}");
         Rapyd::script("tinymce.init({selector: '[id=\"".$this->name."\"]', file_browser_callback : elFinderBrowser, plugins: 'image, link', convert_urls: false});");
->>>>>>> upstream/master
         break;
 
       case "hidden":
