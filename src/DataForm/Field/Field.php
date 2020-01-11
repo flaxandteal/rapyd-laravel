@@ -588,13 +588,13 @@ abstract class Field extends Widget
                     $new_data = explode($this->serialization_sep, $data);
 
                     if ($old_data == $new_data) {
-                        continue;
+                        break;
                     }
 
                     $this->relation->detach($old_data);
 
                     if ($data=='') {
-                        continue;
+                        break;
                     }
 
                     if (is_callable($this->extra_attributes)) {
